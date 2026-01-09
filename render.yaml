@@ -3,7 +3,7 @@ services:
     name: qdrant-rag-chatbot
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --timeout 120 --workers 2 --threads 4 --chdir backend app:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --timeout 120 --workers 1 --threads 2 --chdir backend app:app
     envVars:
       - key: OPENROUTER_API_KEY
         sync: false
@@ -15,4 +15,4 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.0
     healthCheckPath: /
-    plan: starter
+    plan: free
