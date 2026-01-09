@@ -33,23 +33,25 @@ git commit -m "Initial commit: QuotePlan RAG Chatbot ready for deployment"
 ## Step 4: Create GitHub Repository
 
 1. Go to https://github.com/new
-2. Repository name: `qdrant-rag-chatbot` (or your preferred name)
+2. Repository name: `chatbot`
 3. Description: "RAG Chatbot for QuotePlan documentation using Qdrant and OpenRouter"
 4. Visibility: Choose Public or Private
 5. **DO NOT** initialize with README, .gitignore, or license (we already have these)
 6. Click "Create repository"
+
+**Your Repository**: `https://github.com/chavhanrutamsoft/chatbot`
 
 ## Step 5: Connect and Push
 
 GitHub will show you commands. Use these:
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git remote add origin https://github.com/chavhanrutamsoft/chatbot.git
 git branch -M main
 git push -u origin main
 ```
 
-Replace `YOUR_USERNAME` and `YOUR_REPO_NAME` with your actual values.
+**Your Repository URL**: `https://github.com/chavhanrutamsoft/chatbot`
 
 ## Step 6: Verify
 
@@ -116,7 +118,7 @@ If you accidentally committed sensitive data:
 Your repository should look like:
 
 ```
-qdrant-rag-chatbot/
+chatbot/
 ├── .gitignore
 ├── .gitattributes
 ├── README.md

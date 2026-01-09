@@ -28,10 +28,12 @@ git commit -m "Initial commit: Ready for Render deployment"
 ### 1.3 Push to GitHub
 
 ```bash
-git remote add origin https://github.com/yourusername/your-repo-name.git
+git remote add origin https://github.com/chavhanrutamsoft/chatbot.git
 git branch -M main
 git push -u origin main
 ```
+
+**Your Repository**: `https://github.com/chavhanrutamsoft/chatbot`
 
 ## Step 2: Set Up Qdrant Database
 
