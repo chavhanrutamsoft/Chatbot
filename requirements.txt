@@ -1,4 +1,4 @@
-﻿python-dotenv
+python-dotenv
 python-docx
 qdrant-client
 requests
