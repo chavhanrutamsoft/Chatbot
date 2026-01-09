@@ -1,13 +1,52 @@
 # Environment variables
 .env
+.env.local
+.env.*.local
 
 # Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
 
 # Node / frontend
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Qdrant data (if stored locally)
+qdrant_storage/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/

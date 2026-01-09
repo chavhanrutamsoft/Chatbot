@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1f2937">
+    <title>QuotePlan AI Assistant | Smart Documentation Support</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { visibility: visible; }
+    </style>
+</head>
+
+<body>
+    <!-- Floating chatbot button -->
+    <button id="chatToggleBtn" class="chat-toggle-btn" aria-label="Open chatbot" title="Open AI Assistant">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2H4C2.9 2 2.01 2.9 2.01 4L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" fill="currentColor"/>
+        </svg>
+        <span class="unread-badge" id="unreadBadge" style="display:none;">1</span>
+    </button>
+
+    <!-- Chat widget (hidden by default) -->
+    <div id="chatWidget" class="chat-widget">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="chat-header-content">
+                <div class="chat-title-group">
+                    <div class="chat-icon"><img src="https://quoteplan.net/assets/newimages/logo-quoteplan.png" alt="QuotePlan Logo" style="height: 32px; width: 37px; vertical-align: middle;" /></div>
+                    <div class="chat-title-info">
+                        <h1>QuoteBot</h1>
+                        <p class="chat-subtitle">AI-powered documentation support</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chatbot" title="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Messages Container -->
+        <div class="chat-messages-wrapper">
+            <div class="messages" id="messagesContainer">
+                <div class="message-greeting">
+                    <div class="greeting-icon">👋</div>
+                    <h2>Welcome to QuotePlan Assistant</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+            <form id="chatForm" onsubmit="sendMessage(event)">
+                <div class="input-wrapper">
+                    <input type="text" id="questionInput"
+                           placeholder="Ask me anything..."
+                           autocomplete="off"
+                           aria-label="Message input">
+                    <button type="submit" id="sendBtn" class="send-btn" aria-label="Send message" title="Send message">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.8429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.16346272 C3.34915502,0.9 2.40734225,1.00636533 1.77946707,1.4776575 C0.994623095,2.10604706 0.837654326,3.0486314 1.15159189,3.99021575 L3.03521743,10.4311088 C3.03521743,10.5882061 3.19218622,10.7453035 3.50612381,10.7453035 L16.6915026,11.5307904 C16.6915026,11.5307904 17.1624089,11.5307904 17.1624089,12.0020826 C17.1624089,12.4744748 16.6915026,12.4744748 16.6915026,12.4744748 Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+    // Optional: if script.js is loaded with defer, move to script.js
+    </script>
+</body>
+</html>

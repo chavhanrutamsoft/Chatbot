@@ -34,8 +34,12 @@ if (empty($question)) {
 // Sanitize the question
 $question = escapeshellarg($question);
 
-// Call the Python query bot
-$python_cmd = "python query_bot.py --q {$question} 2>&1";
+// Get the project root directory (parent of backend)
+$backend_dir = __DIR__;
+$project_root = dirname($backend_dir);
+
+// Call the Python query bot from backend directory
+$python_cmd = "cd \"{$backend_dir}\" && python query_bot.py --q {$question} 2>&1";
 $output = shell_exec($python_cmd);
 
 if ($output === null) {

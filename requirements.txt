@@ -1,4 +1,4 @@
-python-dotenv
+﻿python-dotenv
 python-docx
 qdrant-client
 requests
@@ -6,3 +6,7 @@ numpy
 tqdm
 rich
 sentence-transformers
+watchdog
+gunicorn
+flask
+flask-cors

@@ -3,8 +3,13 @@ import json
 from docx import Document
 from pathlib import Path
 
-INPUT_DOCX = r"D:\qdrant-rag\Quote Plan Help Manual.docx"  # put file in same folder
-OUTPUT_JSON = "chunks.json"
+# Get project root (parent of backend directory)
+BACKEND_DIR = Path(__file__).parent
+PROJECT_ROOT = BACKEND_DIR.parent
+DATA_DIR = PROJECT_ROOT / "data"
+
+INPUT_DOCX = DATA_DIR / "QuotePlan.docx"  # Read from data folder
+OUTPUT_JSON = DATA_DIR / "chunks.json"  # Write to data folder
 CHUNK_SIZE_CHARS = 800  # adjust if you want larger/smaller chunks
 
 def docx_to_chunks(path):
@@ -34,12 +39,14 @@ def docx_to_chunks(path):
     return chunks
 
 if __name__ == "__main__":
-    p = Path(INPUT_DOCX)
-    if not p.exists():
-        print(f"Put your DOCX at: {p.resolve()}")
+    # Ensure data directory exists
+    DATA_DIR.mkdir(exist_ok=True)
+    
+    if not INPUT_DOCX.exists():
+        print(f"Put your DOCX at: {INPUT_DOCX.resolve()}")
         raise SystemExit(1)
 
-    chunks = docx_to_chunks(p)
+    chunks = docx_to_chunks(INPUT_DOCX)
     print("Created chunks:", len(chunks))
     with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
         json.dump(chunks, f, ensure_ascii=False, indent=2)

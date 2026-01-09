@@ -5,16 +5,22 @@ import json
 import time
 from pathlib import Path
 from dotenv import load_dotenv
-
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import VectorParams, Distance
 
-load_dotenv()
+# Get project root (parent of backend directory)
+from pathlib import Path
+BACKEND_DIR = Path(__file__).parent
+PROJECT_ROOT = BACKEND_DIR.parent
+DATA_DIR = PROJECT_ROOT / "data"
+
+# Load .env from project root
+load_dotenv(PROJECT_ROOT / ".env")
 
 # Config
 QDRANT_HOST = os.getenv("QDRANT_HOST", "http://localhost:6333")
-COLLECTION_NAME = os.getenv("COLLECTION_NAME", "quoteplan_chunks")
-CHUNKS_FILE = os.getenv("CHUNKS_FILE", "chunks.json")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "quoteplan_demo_data")
+CHUNKS_FILE = os.getenv("CHUNKS_FILE", str(DATA_DIR / "chunks.json"))
 BATCH_SIZE = int(os.getenv("BATCH_SIZE", "16"))
 
 # Use local embedding model
@@ -24,8 +30,17 @@ embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 EMBEDDING_DIM = 384  # all-MiniLM-L6-v2 outputs 384 dims
 
 # Qdrant client
-qdrant = QdrantClient(url=QDRANT_HOST)
+# ... existing imports ...
 
+
+# after loading env vars
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+
+# Initialise the client with the API key
+qdrant = QdrantClient(
+    url=QDRANT_HOST,
+    api_key=QDRANT_API_KEY,   # <-- NEW
+)
 
 def embed_text(text):
     """Get embedding using local SentenceTransformer."""
@@ -50,7 +65,10 @@ def create_collection():
 
 
 def load_chunks():
+    # If CHUNKS_FILE is relative, make it relative to data directory
     p = Path(CHUNKS_FILE)
+    if not p.is_absolute():
+        p = DATA_DIR / p
     if not p.exists():
         print(f"Chunks file not found: {p.resolve()}")
         raise SystemExit(1)
