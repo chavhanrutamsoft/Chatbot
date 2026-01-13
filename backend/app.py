@@ -67,7 +67,7 @@ def api():
         future = executor.submit(
             query_bot.answer_structured,
             question,
-            int(data.get('top_k', 5)),
+            int(data.get('top_k', 15)),  # Increased default to retrieve more chunks for complete answers
             False
         )
         

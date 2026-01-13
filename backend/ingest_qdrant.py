@@ -20,7 +20,7 @@ load_dotenv(PROJECT_ROOT / ".env")
 # Config
 QDRANT_HOST = os.getenv("QDRANT_HOST", "http://localhost:6333")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "quoteplan_demo_data")
-CHUNKS_FILE = os.getenv("CHUNKS_FILE", str(DATA_DIR / "chunks.json"))
+CHUNKS_FILE = os.getenv("CHUNKS_FILE", str(DATA_DIR / "data/qa_pairs.json"))
 BATCH_SIZE = int(os.getenv("BATCH_SIZE", "16"))
 
 # Use local embedding model

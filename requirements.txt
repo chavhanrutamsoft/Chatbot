@@ -10,3 +10,4 @@ watchdog
 gunicorn
 flask
 flask-cors
+openai
