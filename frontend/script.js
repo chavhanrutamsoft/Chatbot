@@ -67,7 +67,18 @@ function formatMessage(text) {
   const escaped = escapeHtml(String(text))
   const withBold = escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
   const withItalic = withBold.replace(/__(.+?)__/g, "<em>$1</em>")
-  return withItalic.replace(/\n/g, "<br>")
+  const withLineBreaks = withItalic.replace(/\n/g, "<br>")
+  
+  // Convert URLs to clickable links
+  // Pattern matches http://, https://, or www. URLs
+  const urlPattern = /(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+)/gi
+  const withLinks = withLineBreaks.replace(urlPattern, (url) => {
+    // Add http:// if it's a www. URL
+    const href = url.startsWith('http') ? url : `http://${url}`
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`
+  })
+  
+  return withLinks
 }
 
 /* Auto-scroll to latest message with smooth animation - Always enabled */
@@ -218,6 +229,20 @@ async function sendMessage(event) {
   if (!question) return
 
   lastQuestion = question
+
+  // Animate greeting GIF to corner on first message
+  if (conversationCount === 0) {
+    const greeting = messagesContainer.querySelector(".message-greeting")
+    if (greeting) {
+      greeting.classList.add("animating")
+      // Remove greeting after animation completes
+      setTimeout(() => {
+        const prompts = messagesContainer.querySelector(".quick-prompts")
+        if (greeting) greeting.remove()
+        if (prompts) prompts.remove()
+      }, 800)
+    }
+  }
 
   addMessage(question, true)
   questionInput.value = ""

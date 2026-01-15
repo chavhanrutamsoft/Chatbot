@@ -26,10 +26,17 @@
         <div class="chat-header">
             <div class="chat-header-content">
                 <div class="chat-title-group">
-                    <div class="chat-icon"><img src="https://quoteplan.net/assets/newimages/logo-quoteplan.png" alt="QuotePlan Logo" style="height: 32px; width: 37px; vertical-align: middle;" /></div>
+                    <div class="chat-icon">
+                        <img src="https://quoteplan.net/assets/newimages/logo-quoteplan.png" alt="QuotePlan Logo" style="height: 32px; width: 37px; vertical-align: middle;" />
+                    </div>
                     <div class="chat-title-info">
-                        <h1>QuoteBot</h1>
-                        <p class="chat-subtitle">AI-powered documentation support</p>
+                        <h1>Eva AI</h1>
+                        <div class="chat-subtitle">
+                            <span class="status-indicator">
+                                <span class="status-dot"></span>
+                                <span>Online</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,9 +52,10 @@
         <!-- Chat Messages Container -->
         <div class="chat-messages-wrapper">
             <div class="messages" id="messagesContainer">
-                <div class="message-greeting">
-                    <div class="greeting-icon">👋</div>
-                    <h2>Welcome to QuotePlan Assistant</h2>
+                <div class="message-greeting" id="greetingMessage">
+                    <div class="greeting-icon" id="greetingGif">
+                        <img src="https://www.bacancytechnology.com/blog/wp-content/uploads/2019/08/ezgif.com-optimize-5.gif   " alt="Welcome" class="greeting-gif" />
+                    </div>
                 </div>
             </div>
         </div>

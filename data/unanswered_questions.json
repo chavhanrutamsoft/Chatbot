@@ -1,0 +1,226 @@
+[
+  {
+    "question": "how to send offer letter",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-14 18:34:53",
+    "date": "2026-01-14"
+  },
+  {
+    "question": "what is unknown term",
+    "answer": "[Unknown term] is not explicitly defined in the provided CONTEXT. There are no mentions or descriptions related to \"unknown term.\"",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-14 18:35:45",
+    "date": "2026-01-14"
+  },
+  {
+    "question": "how to import item",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-14 18:37:43",
+    "date": "2026-01-14"
+  },
+  {
+    "question": "what is the formula for GRN amount",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:19:29",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "⦁\thow to calculate Tripple time in the timesheet",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:19:51",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to calculate Tripple time in the timesheet",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:20:03",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "what is the function of PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:20:18",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "In how many ways user can create Po",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:21:52",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how many methods to create PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:28:45",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "if the PO is emailed then can user delete PO?",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:34:36",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "if the PO status is emailed then can user delete PO?",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:36:23",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to search PO using advanced search",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:42:08",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how many reports of PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:47:57",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "types of PO report",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:49:11",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "types of PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:50:42",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "types of stock reports",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:52:25",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to create reimbursement",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:53:51",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how many ways you can create PR",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:56:56",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how many ways user can create MR",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 12:57:17",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "what is junk",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:05:43",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "why lead required?",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:07:50",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to assigned vendor to PR",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:09:58",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to assign vendor in PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:10:12",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to assign supplier to PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:12:18",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "tell me different modules present in quoteplan?",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:22:45",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "what is the use of item tab in PO OR PR and GRN",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:24:31",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "what is the use of item tab in PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:24:58",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to use quoteplan?",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:27:24",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to use lead module?",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:27:38",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to add items into PO",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:30:14",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "how to convert business entity in lead",
+    "answer": "I don't have this information.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 13:30:52",
+    "date": "2026-01-15"
+  },
+  {
+    "question": "landedd cost",
+    "answer": "I don't have this information in the QuotePlan manual.",
+    "retrieved_chunks": 30,
+    "timestamp": "2026-01-15 16:14:21",
+    "date": "2026-01-15"
+  }
+]

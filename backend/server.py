@@ -321,8 +321,8 @@
 
 #!/usr/bin/env python3
 """
-Simple HTTP server for the QuotePlan RAG Chatbot
-PRODUCTION READY – No functionality loss
+Production-ready HTTP server for QuotePlan RAG Chatbot
+Features: Logging, caching, error handling, input validation
 """
 
 import http.server
@@ -330,9 +330,12 @@ import socketserver
 import json
 import sys
 import hashlib
+import os
+import time
 from pathlib import Path
+from collections import OrderedDict
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
-from typing import Optional
+from typing import Optional, Tuple
 
 # ----------------------------------------------------------------------
 # IMPORT QUERY BOT
@@ -343,35 +346,93 @@ PROJECT_ROOT = BACKEND_DIR.parent
 sys.path.insert(0, str(BACKEND_DIR))
 
 import query_bot
+from logger_config import logger
 
-PORT = 8000
+# Configuration
+PORT = int(os.getenv("PORT", 8000))
 FRONTEND_DIR = PROJECT_ROOT / "frontend"
+MAX_QUESTION_LENGTH = 1000
+CACHE_MAX_SIZE = 1000  # Maximum cache entries per session
+CACHE_TTL = 3600  # Cache TTL in seconds (1 hour)
 
 # ----------------------------------------------------------------------
-# CACHE SYSTEM (per session)
+# CACHE SYSTEM (per session with TTL and size limits)
 # ----------------------------------------------------------------------
 
-cache = {}
+cache = {}  # {session_id: OrderedDict({hash: (response, timestamp)})}
 
 def normalize_question(q: str) -> str:
+    """Normalize question for consistent caching."""
     return q.lower().strip()
 
 def get_question_hash(q: str) -> str:
-    return hashlib.md5(normalize_question(q).encode("utf-8")).hexdigest()
+    """Generate hash for normalized question."""
+    normalized = normalize_question(q)
+    return hashlib.md5(normalized.encode("utf-8")).hexdigest()
 
 def get_cached_response(session_id: str, question: str) -> Optional[dict]:
-    return cache.get(session_id, {}).get(get_question_hash(question))
+    """Get cached response if available and not expired."""
+    if session_id not in cache:
+        return None
+    
+    question_hash = get_question_hash(question)
+    session_cache = cache[session_id]
+    
+    if question_hash not in session_cache:
+        return None
+    
+    response, timestamp = session_cache[question_hash]
+    
+    # Check TTL
+    if time.time() - timestamp > CACHE_TTL:
+        del session_cache[question_hash]
+        logger.debug(f"Cache entry expired for question hash: {question_hash[:8]}...")
+        return None
+    
+    return response.copy()
 
 def cache_response(session_id: str, question: str, response: dict):
-    cache.setdefault(session_id, {})
-    cache[session_id][get_question_hash(question)] = response.copy()
+    """Store response in cache with TTL and size limits."""
+    if session_id not in cache:
+        cache[session_id] = OrderedDict()
+    
+    question_hash = get_question_hash(question)
+    session_cache = cache[session_id]
+    
+    # Remove oldest entries if cache is full
+    while len(session_cache) >= CACHE_MAX_SIZE:
+        session_cache.popitem(last=False)
+    
+    # Add new entry (move to end for LRU)
+    session_cache[question_hash] = (response.copy(), time.time())
+    
+    # Move to end (most recently used)
+    session_cache.move_to_end(question_hash)
 
 def get_or_create_session_id(data: dict, client_address: tuple) -> str:
+    """Get or create session ID for user."""
     session_id = data.get("session_id") or data.get("user_id")
     if not session_id:
         session_id = f"user_{client_address[0]}"
-    cache.setdefault(session_id, {})
+    cache.setdefault(session_id, OrderedDict())
     return session_id
+
+def validate_question(question: str) -> Tuple[bool, Optional[str]]:
+    """Validate question input. Returns (is_valid, error_message)."""
+    if not question or not question.strip():
+        return False, "Question cannot be empty"
+    
+    if len(question) > MAX_QUESTION_LENGTH:
+        return False, f"Question too long (max {MAX_QUESTION_LENGTH} characters)"
+    
+    # Basic sanitization check (prevent injection attacks)
+    dangerous_chars = ['<script', 'javascript:', 'onerror=']
+    question_lower = question.lower()
+    for dangerous in dangerous_chars:
+        if dangerous in question_lower:
+            return False, "Invalid characters in question"
+    
+    return True, None
 
 # ----------------------------------------------------------------------
 # FALLBACK RESPONSE
@@ -417,63 +478,87 @@ class ChatbotHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(file_path.read_bytes())
 
     def do_POST(self):
+        """Handle POST requests to /api endpoint."""
         if self.path != "/api":
             self.send_json_response({"error": "Not found"}, 404)
             return
 
+        start_time = time.time()
+        
         try:
+            # Read and parse request body
             length = int(self.headers.get("Content-Length", 0))
+            if length > 10 * 1024:  # 10KB limit
+                self.send_json_response({"error": "Request too large"}, 413)
+                return
+            
             body = self.rfile.read(length).decode("utf-8")
             data = json.loads(body)
-
+            
             question = data.get("question", "").strip()
-            if not question:
-                self.send_json_response({"error": "Question is required"}, 400)
+            
+            # Validate question
+            is_valid, error_msg = validate_question(question)
+            if not is_valid:
+                logger.warning(f"Invalid question from {self.client_address[0]}: {error_msg}")
+                self.send_json_response({"error": error_msg}, 400)
                 return
 
             session_id = get_or_create_session_id(data, self.client_address)
-
-            # 🔴 CRITICAL: Do NOT cache follow-ups
+            
+            # Check if it's a follow-up (don't cache follow-ups)
             is_follow_up = query_bot._is_follow_up(question)
 
+            # Check cache (skip for follow-ups)
             if not is_follow_up:
                 cached = get_cached_response(session_id, question)
                 if cached:
-                    print("[CACHE] HIT")
+                    logger.info(f"Cache HIT for session {session_id[:8]}...")
                     self.send_json_response(cached)
                     return
 
-            print("[CACHE] MISS")
+            logger.info(f"Cache MISS for session {session_id[:8]}..., question: {question[:50]}...")
 
+            # Execute query with timeout
             executor = ThreadPoolExecutor(max_workers=2)
             future = executor.submit(
                 query_bot.answer_structured,
                 question,
-                8   # aligned with improved RAG recall
+                int(data.get("top_k", 30))
             )
 
             try:
                 out = future.result(timeout=15)
 
+                # Normalize output
                 if isinstance(out, dict):
                     out = dict(out)
                     out.pop("retrieved", None)
 
+                # Cache successful responses (skip follow-ups)
                 if out.get("success", True) and not is_follow_up:
                     cache_response(session_id, question, out)
 
+                response_time = time.time() - start_time
+                logger.info(f"Request processed in {response_time:.2f}s")
                 self.send_json_response(out)
 
             except FuturesTimeout:
                 future.cancel()
-                print("[SERVER] Timeout → fallback")
+                logger.warning(f"Request timeout for question: {question[:50]}...")
                 self.send_json_response(fallback_response(question))
 
-        except json.JSONDecodeError:
-            self.send_json_response({"error": "Invalid JSON"}, 400)
+        except json.JSONDecodeError as e:
+            logger.warning(f"Invalid JSON from {self.client_address[0]}: {e}")
+            self.send_json_response({"error": "Invalid JSON format"}, 400)
+        except ValueError as e:
+            logger.warning(f"Invalid value from {self.client_address[0]}: {e}")
+            self.send_json_response({"error": "Invalid request data"}, 400)
         except Exception as e:
-            print("[SERVER ERROR]", e)
-            self.send_json_response({"error": str(e)}, 500)
+            logger.error(f"Server error: {e}", exc_info=True)
+            self.send_json_response({
+                "error": "An internal error occurred. Please try again later."
+            }, 500)
 
     def send_json_response(self, data, status=200):
         self.send_response(status)
@@ -490,7 +575,8 @@ class ChatbotHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def log_message(self, fmt, *args):
-        print(f"[{self.client_address[0]}] {fmt % args}")
+        """Log HTTP requests."""
+        logger.debug(f"{self.client_address[0]} - {fmt % args}")
 
 # ----------------------------------------------------------------------
 # SERVER START
@@ -499,11 +585,23 @@ class ChatbotHandler(http.server.SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     socketserver.TCPServer.allow_reuse_address = True
     port = PORT
+    max_attempts = 5
 
-    for _ in range(5):
+    for attempt in range(max_attempts):
         try:
             with socketserver.TCPServer(("", port), ChatbotHandler) as httpd:
-                print(f"🚀 QuotePlan Chatbot running at http://localhost:{port}")
-                httpd.serve_forever()
-        except OSError:
-            port += 1
+                logger.info(f"🚀 QuotePlan Chatbot server started on http://localhost:{port}")
+                logger.info(f"Frontend directory: {FRONTEND_DIR}")
+                logger.info(f"Cache TTL: {CACHE_TTL}s, Max cache size: {CACHE_MAX_SIZE}")
+                try:
+                    httpd.serve_forever()
+                except KeyboardInterrupt:
+                    logger.info("Server shutdown requested")
+                    break
+        except OSError as e:
+            if attempt < max_attempts - 1:
+                port += 1
+                logger.warning(f"Port {port - 1} in use, trying port {port}...")
+            else:
+                logger.error(f"Could not find available port after {max_attempts} attempts")
+                raise

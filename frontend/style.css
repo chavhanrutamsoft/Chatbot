@@ -77,8 +77,8 @@ body {
   right: 24px;
   bottom: 24px;
   cursor: grab;
-  width: 420px;
-  height: 650px;
+  width: 380px;
+  height: 600px;
   max-height: 85vh;
   background: #fff;
   border-radius: 18px;
@@ -97,36 +97,105 @@ body {
 }
 
 /* ================================================================
-   CHAT HEADER
+   CHAT HEADER - ENHANCED BEAUTIFUL DESIGN
    ================================================================ */
 .chat-header {
-  background: #0089e9;
-  color: #070707;
-  padding: 16px 20px;
+  background: linear-gradient(135deg, #0089e9 0%, #0066cc 50%, #0052a3 100%);
+  color: #ffffff;
+  padding: 16px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: none;
   flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(0, 137, 233, 0.25), 
+              0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
-.chat-header-content h1 {
-  font-size: 17px;
-  font-weight: 600;
-  margin: 0 0 2px 0 !important;
-  color: #ffffff !important;
+
+/* Animated background overlay */
+.chat-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    rgba(255, 255, 255, 0.05) 50%, 
+    transparent 100%);
+  pointer-events: none;
+  animation: shimmer 3s ease-in-out infinite;
 }
-.chat-subtitle {
-  color: #fbfafa !important;
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 .chat-header-content {
   flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.chat-header-content h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px 0 !important;
+  color: #ffffff !important;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.chat-subtitle {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Status indicator */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
 }
 
 .chat-title-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .chat-icon {
@@ -134,43 +203,111 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: rgba(59, 130, 246, 0.2);
-  border-radius: 10px;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-icon::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    transparent 70%);
+  animation: iconShine 3s ease-in-out infinite;
+}
+
+@keyframes iconShine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+.chat-icon:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.chat-icon img {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.chat-title-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .chat-title-info h1 {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   margin: 0;
-  align-items: center;
-  color: white;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
 }
 
 .chat-subtitle {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 2px 0 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .chat-close-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
 }
 
 .chat-close-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05) rotate(90deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.chat-close-btn:active {
+  transform: scale(0.95) rotate(90deg);
 }
 
 /* ================================================================
@@ -184,24 +321,32 @@ body {
 }
 
 .header-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
 }
 
 .header-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .header-btn:active {
@@ -219,7 +364,7 @@ body {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 24px 18px;
+  padding: 8px 10px;
   background: #f8fafc;
   scroll-behavior: smooth;
   position: relative;
@@ -303,19 +448,49 @@ body {
 }
 
 .greeting-icon {
-  font-size: 56px;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 16px;
-  animation: bounce 2s infinite;
+  position: relative;
 }
 
-@keyframes bounce {
+.greeting-gif {
+  width: 230px;
+  height: 240px;
+  object-fit: contain;
+  border-radius: 50%;
+  animation: greetingBounce 2s ease-in-out infinite;
+}
+
+@keyframes greetingBounce {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+/* Animation for GIF moving to corner */
+.message-greeting.animating .greeting-gif {
+  position: absolute;
+  z-index: 1001;
+  animation: moveToCorner 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes moveToCorner {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(280px, -450px) scale(0.25);
+    opacity: 0;
   }
 }
 
@@ -512,8 +687,7 @@ body {
 }
 
 .answer-section {
-  margin-bottom: 10px;
-  padding: 16px 6px 16px 6px;
+  padding: 8px 6px 8px 6px;
   background: #ffffff;
   box-shadow: 0 2px 8px rgba(65,78,99,0.07);
   border: 1px solid #e6e5f0;
@@ -807,7 +981,20 @@ body {
   }
 
   .chat-header {
-    padding: 16px;
+    padding: 14px 16px;
+  }
+  
+  .chat-icon {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .chat-title-info h1 {
+    font-size: 17px;
+  }
+  
+  .chat-subtitle {
+    font-size: 11px;
   }
 
   .chat-title-info h1 {

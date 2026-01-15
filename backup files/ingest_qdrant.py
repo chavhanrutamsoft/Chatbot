@@ -26,8 +26,8 @@ BATCH_SIZE = int(os.getenv("BATCH_SIZE", "16"))
 # Use local embedding model
 print("Loading local embedding model (all-MiniLM-L6-v2)...")
 from sentence_transformers import SentenceTransformer
-embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
-EMBEDDING_DIM = 384  # all-MiniLM-L6-v2 outputs 384 dims
+embedding_model = SentenceTransformer("all-mpnet-base-v2")
+EMBEDDING_DIM = 768  # all-mpnet-base-v2 outputs 768 dims (best free model)
 
 # Qdrant client
 # ... existing imports ...
